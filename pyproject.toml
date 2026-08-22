@@ -1,0 +1,22 @@
+[project]
+name = "transcriber"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "accelerate>=1.14.0",
+    "ctranslate2>=4.8.1",
+    "faster-whisper>=1.2.1",
+    "ffmpeg-python>=0.2.0",
+    "groq>=1.6.0",
+    "huggingface-hub>=1.26.0",
+    "loguru>=0.7.3",
+    "openai>=2.53.0",
+    "pydub>=0.25.1",
+    "python-dotenv>=1.2.2",
+    "sentencepiece>=0.2.2",
+    "soundfile>=0.14.0",
+    "torch>=2.13.0",
+    "transformers>=5.14.1",
+]
