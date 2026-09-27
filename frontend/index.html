@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Call Transcriber</title>
+<meta name="description" content="Console for the Groq call transcription pipeline — split long recordings, transcribe every chunk and extract structured information.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<link rel="stylesheet" href="assets/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='19' font-size='20'%3E%F0%9F%8E%A7%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark" data-icon="mic" data-size="18"></div>
+      <div class="brand-text">
+        <div class="brand-name">Call Transcriber</div>
+        <div class="brand-sub">Groq Whisper</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-label">Workspace</div>
+      <a class="nav-item" data-nav="transcribe" href="#transcribe"><span data-icon="mic" data-size="17"></span> Transcribe</a>
+      <a class="nav-item" data-nav="library" href="#library"><span data-icon="list" data-size="17"></span> Transcripts <span class="count" data-count="tx">—</span></a>
+      <a class="nav-item" data-nav="config" href="#config"><span data-icon="settings" data-size="17"></span> Pipeline</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="conn" id="conn"><span class="dot"></span><span class="conn-text">Checking API...</span></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="btn btn-ghost btn-icon menu-btn" data-icon="menu" data-size="19" aria-label="Open navigation"></button>
+      <h1 data-page-title>Transcribe</h1>
+      <div class="spacer"></div>
+      <button class="btn btn-ghost btn-icon" id="refresh" title="Reload" data-icon="refresh" data-size="18"></button>
+      <button class="btn btn-ghost btn-icon" data-theme-toggle></button>
+    </header>
+
+    <div class="content">
+
+      <section class="page" data-page="transcribe" data-title="Transcribe">
+        <div class="page-head">
+          <h2>Transcribe a recording</h2>
+          <p>Long recordings are split into short chunks so each one fits comfortably into a single request. Every chunk is transcribed and the pieces are stitched back into one continuous transcript.</p>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="dropzone" id="dropzone">
+              <div class="dropzone-icon" data-icon="audio" data-size="22"></div>
+              <div class="dropzone-title">Drop a call recording here</div>
+              <div class="dropzone-hint" id="formatHint">MP3, WAV, M4A, OGG, FLAC, AAC</div>
+              <input type="file" accept="audio/*">
+            </div>
+            <div id="player" class="mt-2"></div>
+          </div>
+        </div>
+
+        <div id="result"></div>
+      </section>
+
+      <section class="page" data-page="library" data-title="Transcripts">
+        <div class="page-head">
+          <h2>Stored transcripts</h2>
+          <p>Every transcript written to the output directory. Select one to read it, copy it, or run information extraction over it.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Transcript files</h3>
+            <div class="spacer"></div>
+            <span class="badge" id="txBadge">—</span>
+          </div>
+          <div id="txList"></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="config" data-title="Pipeline">
+        <div class="page-head">
+          <h2>Pipeline configuration</h2>
+          <p>The models and chunking settings this build is running with.</p>
+        </div>
+
+        <div class="grid cols-2 mb-3" id="configCards"></div>
+
+        <div class="card">
+          <div class="card-head"><h3>Stages</h3></div>
+          <div class="card-body">
+            <div class="pipeline">
+              <div class="stage">
+                <div class="stage-icon" data-icon="audio" data-size="18"></div>
+                <div class="stage-body"><div class="stage-name">Split</div>
+                <div class="stage-desc">The recording is cut into fixed-length WAV chunks so each request stays well inside the model's limits.</div></div>
+              </div>
+              <div class="stage">
+                <div class="stage-icon" data-icon="mic" data-size="18"></div>
+                <div class="stage-body"><div class="stage-name">Transcribe</div>
+                <div class="stage-desc">Each chunk is sent to the Groq speech-to-text model, which returns text plus the detected language and duration.</div></div>
+              </div>
+              <div class="stage">
+                <div class="stage-icon" data-icon="layers" data-size="18"></div>
+                <div class="stage-body"><div class="stage-name">Merge</div>
+                <div class="stage-desc">Chunk transcripts are joined in order and written to a single text file named after the recording.</div></div>
+              </div>
+              <div class="stage">
+                <div class="stage-icon" data-icon="sparkles" data-size="18"></div>
+                <div class="stage-body"><div class="stage-name">Extract</div>
+                <div class="stage-desc">The merged transcript is passed to the language model to pull out the structured details you care about.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="assets/ui.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

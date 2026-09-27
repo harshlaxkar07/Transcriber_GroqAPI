@@ -1,0 +1,86 @@
+/* Call Transcriber — project styling on top of the shared UI system. */
+:root { --accent-h: 262; --accent-s: 76%; --accent-l: 60%; }
+
+.conn {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .78rem; color: var(--text-muted);
+  padding: 7px 10px; border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.conn .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-dim); flex: 0 0 7px; }
+.conn.online .dot { background: var(--ok); box-shadow: 0 0 0 3px var(--ok-soft); }
+.conn.offline .dot { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+
+audio { width: 100%; height: 40px; }
+
+.transcript {
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px;
+  font-size: .9rem; line-height: 1.78; color: var(--text);
+  max-height: 420px; overflow-y: auto; white-space: pre-wrap; word-break: break-word;
+}
+
+.chunk {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-elev); overflow: hidden;
+}
+.chunk-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; width: 100%; cursor: pointer;
+  background: none; border: none; text-align: left; color: var(--text);
+  transition: background .12s;
+}
+.chunk-head:hover { background: var(--surface-2); }
+.chunk-n {
+  width: 22px; height: 22px; flex: 0 0 22px; border-radius: 7px;
+  display: grid; place-items: center; font-size: .7rem; font-weight: 700;
+  background: var(--accent-soft); color: var(--accent);
+}
+.chunk-name { flex: 1; min-width: 0; font-size: .83rem; font-family: var(--mono);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chunk-chev { color: var(--text-dim); display: grid; transition: transform .2s var(--ease); }
+.chunk.open .chunk-chev { transform: rotate(90deg); }
+.chunk-body { display: none; padding: 0 14px 13px; }
+.chunk.open .chunk-body { display: block; }
+.chunk-text {
+  font-size: .84rem; line-height: 1.7; color: var(--text-muted);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px 13px;
+  white-space: pre-wrap; word-break: break-word;
+}
+
+.tx-row {
+  display: flex; align-items: center; gap: 13px;
+  padding: 13px 18px; border-bottom: 1px solid var(--border);
+  transition: background .12s;
+}
+.tx-row:last-child { border-bottom: none; }
+.tx-row:hover { background: var(--surface-2); }
+.tx-icon {
+  width: 32px; height: 32px; flex: 0 0 32px; border-radius: 9px;
+  display: grid; place-items: center; background: var(--accent-soft); color: var(--accent);
+}
+.tx-icon svg { width: 16px; height: 16px; }
+.tx-body { flex: 1; min-width: 0; }
+.tx-name { font-size: .87rem; font-weight: 550; font-family: var(--mono); }
+.tx-sub { font-size: .76rem; color: var(--text-dim); }
+
+.pipeline { display: flex; flex-direction: column; gap: 0; }
+.stage { display: flex; gap: 14px; padding-bottom: 20px; position: relative; }
+.stage:last-child { padding-bottom: 0; }
+.stage:not(:last-child)::before {
+  content: ""; position: absolute; left: 17px; top: 38px; bottom: 4px;
+  width: 2px; background: var(--border);
+}
+.stage-icon {
+  width: 36px; height: 36px; flex: 0 0 36px; border-radius: 11px;
+  display: grid; place-items: center; z-index: 1;
+  background: var(--accent-soft); color: var(--accent);
+}
+.stage-name { font-size: .92rem; font-weight: 620; margin-bottom: 3px; }
+.stage-desc { font-size: .84rem; color: var(--text-muted); line-height: 1.6; }
+
+.report {
+  background: var(--bg-elev); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px;
+  font-size: .88rem; line-height: 1.75; white-space: pre-wrap; word-break: break-word;
+}
